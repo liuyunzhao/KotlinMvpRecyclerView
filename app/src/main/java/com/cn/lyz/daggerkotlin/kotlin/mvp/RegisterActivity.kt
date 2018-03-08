@@ -37,7 +37,6 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, RegisterCont
                 toast(it)
             }
         }
-
     }
 
     fun initData() {

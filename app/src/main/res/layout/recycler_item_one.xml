@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:id="@+id/item_root"
+    android:orientation="horizontal"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp">
+
+    <Button
+        android:id="@+id/name"
+        android:textAllCaps="false"
+
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"/>
+    <Button
+        android:id="@+id/price"
+        android:layout_width="80dp"
+        android:textAllCaps="false"
+
+        android:layout_marginLeft="20dp"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:textColor="#000"
+        android:text="布局1"
+        android:gravity="center"
+        android:textSize="20sp"
+        android:layout_height="match_parent"/>
+
+</LinearLayout>

@@ -8,14 +8,20 @@ import com.cn.lyz.daggerkotlin.dagger.mvp.OnListener
  */
 class RegisterMode : RegisterContract.Model {
 
-    override fun getLoginInfo(info: UserInfo, listener: OnListener) {
+    /**
+     * 获取注册数据
+     */
+    override fun getRegisterInfo(info: UserInfo, listener: OnListener) {
+
         listener.onSuccess("姓名：${info.name} "
                 + "- 年龄：${info.age}"
                 + "- 身高：${info.height}"
                 + "- 性别：${info.sex}"
                 + "- 班号：${info.num}")
+
         Handler().postDelayed(Runnable {
             listener.onFailure("failure")
         }, 3000)
+
     }
 }

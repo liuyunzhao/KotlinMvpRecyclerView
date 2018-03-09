@@ -27,9 +27,12 @@ class RegisterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         this.inflater = from(context)
     }
 
+    /**
+     * 条目数
+     */
     override fun getItemCount(): Int {
         //为空就返回0
-        return list?.size ?: 0
+        return list?.size
     }
 
     /**
@@ -46,37 +49,43 @@ class RegisterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    //多布局显示
+    /**
+     * 创建多布局ViewHolder
+     */
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder {
-        when (viewType) {
+        return when (viewType) {
             1 -> {
-                return OneViewHolder(inflater.inflate(R.layout.recycler_item_one, parent, false))
+                OneViewHolder(inflater.inflate(R.layout.recycler_item_one, parent, false))
             }
             2 -> {
-                return TwoViewHolder(inflater.inflate(R.layout.recycler_item_two, parent, false))
+                TwoViewHolder(inflater.inflate(R.layout.recycler_item_two, parent, false))
             }
             else -> {
-                return OneViewHolder(inflater.inflate(R.layout.recycler_item_one, parent, false))
+                OneViewHolder(inflater.inflate(R.layout.recycler_item_one, parent, false))
             }
         }
     }
 
+    /**
+     * 绑定ViewHolder
+     */
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder?, position: Int) {
-        val product = list.get(position)
+        val product = list[position]
+        //获取条目类型
         when(getItemViewType(position)){
             2,4,5,8->{
-//                强势转换 as ,安全转换 as?, 类型判断：is
+                //强势转换 as ,安全转换 as?, 类型判断：is
                 var twoViewHolder:TwoViewHolder = holder as TwoViewHolder
-                twoViewHolder.name.setText(product.name)
-                twoViewHolder.price.setText("${product.price}")
+                twoViewHolder.name.text = product.name
+                twoViewHolder.price.text = "${product.price}"
                 twoViewHolder.item_root.setOnClickListener {
                     itemClick!!.onItemClick(position)
                 }
             }
             else ->{
                 var oneViewHolder:OneViewHolder = holder as OneViewHolder
-                oneViewHolder.name.setText(product.name)
-                oneViewHolder.price.setText(product.price.toString())
+                oneViewHolder.name.text = product.name
+                oneViewHolder.price.text = product.price.toString()
                 oneViewHolder.item_root.setOnClickListener {
                     itemClick!!.onItemClick(position)
                 }
@@ -85,7 +94,7 @@ class RegisterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     /**
-     * 获取控件ID
+     * 获取控件ID --> 一种方式
      */
     class OneViewHolder(view:View):RecyclerView.ViewHolder(view){
         var item_root:LinearLayout = view.item_root
@@ -94,7 +103,7 @@ class RegisterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
     }
 
     /**
-     * 获取控件ID
+     * 获取控件ID --> 一种方式
      */
     class TwoViewHolder : RecyclerView.ViewHolder{
         var item_root:LinearLayout
@@ -108,16 +117,17 @@ class RegisterAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder> {
         }
     }
 
-    //接口回调
-    private var itemClick: OnItemClickLitener?=null
+    /**
+     * 条目点击 --> 接口回调
+     */
+    private var itemClick: OnItemClickListener?=null
 
-    interface OnItemClickLitener{
+    interface OnItemClickListener{
         fun onItemClick(position: Int)
     }
 
-    fun setOnItemClickLitener(itemClick: OnItemClickLitener) {
+    fun setOnItemClickLitener(itemClick: OnItemClickListener) {
         this.itemClick = itemClick
     }
-
 
 }

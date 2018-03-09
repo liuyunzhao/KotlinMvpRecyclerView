@@ -18,10 +18,16 @@ fun Context.toast(message: String, duration: Int = Toast.LENGTH_SHORT) {
     Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
 }
 
+/**
+ * 对Log的扩展函数
+ */
 fun Log.log(message: String) {
     Log.d("liuyz", message)
 }
 
+/**
+ * 对Log的扩展函数
+ */
 fun Log.log(tag: String = "liuyz", message: String) {
     Log.d(tag, message)
 }

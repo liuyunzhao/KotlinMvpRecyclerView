@@ -23,13 +23,20 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, RegisterCont
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
         initView()
-        initData()
+        initPresenter()
+        initRecyclerViewData()
     }
 
+    /**
+     * 设置按钮的点击事件
+     */
     fun initView() {
+
+        //直接使用控件id设置监听
         btn1.setOnClickListener {
             click1()
         }
+
         btn2.setOnClickListener(this)
 
         et1.setTextChangedListener {
@@ -37,23 +44,43 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, RegisterCont
                 toast(it)
             }
         }
+
     }
 
-    fun initData() {
+    /**
+     * 初始化Presenter
+     * 把RegisterContract.View、Context传进入
+     */
+    fun initPresenter() {
+        //创建Presenter对象
         presenter = RegisterPresenter(this, this)
+    }
+
+    /**
+     * 初始化RecyclerView相关数据
+     */
+    fun initRecyclerViewData() {
+
+        //获取列表数据
         val list = getList()
+        //创建Adapter对象
         var adapter = RegisterAdapter(this, list)
+        //给RecyclerView设置Adater
         recycler_view.adapter = adapter
+        //设置LayoutManager
         recycler_view.layoutManager = (LinearLayoutManager(this))
 
-        //条目点击
-        adapter.setOnItemClickLitener(object : RegisterAdapter.OnItemClickLitener{
+        //RecyclerView条目点击（自定义回调函数）
+        adapter.setOnItemClickLitener(object : RegisterAdapter.OnItemClickListener{
             override fun onItemClick(position: Int) {
                 toast("点击位置是：$position")
             }
         })
     }
 
+    /**
+     * 获取列表数据
+     */
     fun getList(): ArrayList<Product> {
         var product: Product
         var list: ArrayList<Product> = ArrayList()
@@ -67,6 +94,9 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, RegisterCont
         return list
     }
 
+    /**
+     * 点击事件
+     */
     override fun onClick(v: View?) {
         when (v?.id) {
             R.id.btn2 -> click2()
@@ -76,13 +106,19 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, RegisterCont
         }
     }
 
+    /**
+     * 创建对象并提交信息
+     */
     fun click1() {
+        //直接通过 对象() 创建对象
         var userInfo = UserInfo()
         userInfo.name = "xiaoming"
         userInfo.sex = "woman"
         userInfo.num = 25
         userInfo.height = 178
-        presenter.submitLoginInfo(userInfo)
+
+        //提交对象信息
+        presenter.submitRegisterInfo(userInfo)
     }
 
     fun click2() {
@@ -91,11 +127,11 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener, RegisterCont
         bmwx5.run()
     }
 
-    override fun loginSuccess(info: String) {
+    override fun registerSuccess(info: String) {
         toast(info)
     }
 
-    override fun loginFailure(msg: String) {
+    override fun registerFailure(msg: String) {
         toast(msg)
     }
 
